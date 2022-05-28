@@ -1,6 +1,10 @@
 package com.retribution.cursomc.resources;
 
 import com.retribution.cursomc.domain.CategoriaDomain;
+import com.retribution.cursomc.services.CategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,15 +16,13 @@ import java.util.List;
 @RequestMapping(value = "/categorias")
 public class CategoriaResources {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<CategoriaDomain> listar(){
-        CategoriaDomain cat1 = new CategoriaDomain(1, "Informatica");
-        CategoriaDomain cat2 = new CategoriaDomain(2, "Escritório");
+    @Autowired
+    private CategoriaService service;
 
-        List<CategoriaDomain> lista = new ArrayList<>();
-        lista.add(cat1);
-        lista.add(cat2);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> find(@PathVariable Integer id){
+        CategoriaDomain obj = service.buscar(id);
+        return ResponseEntity.ok().body(obj);
 
-        return lista;
     }
 }
